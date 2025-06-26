@@ -1,0 +1,21 @@
+.emoji
+  height: 1.5em
+  width: 1.5em
+  margin: -0.25em 0.25em
+  transform: scale(1)
+
+  transition: transform 0.1s ease-in-out
+
+  &:hover
+    transform: scale(3)
+
+.photo-thumbnail
+  cursor: pointer
+  transition: transform 0.2s ease-in-out
+  .camera-man
+    transition: opacity 0.2s ease-in-out
+    opacity: 0
+  &:hover
+    transform: scale(1.05)
+    .camera-man
+        opacity: 1

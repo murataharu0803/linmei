@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './App'
 
 import '@mantine/core/styles.css'
+import './assets/global.sass'
 
 const theme = createTheme({
   colors: {

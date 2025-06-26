@@ -1,26 +1,36 @@
+import { BackgroundImage, Container, Flex, Overlay } from '@mantine/core'
 import React from 'react'
+import { Outlet, useLocation } from 'react-router-dom'
 
 import NavTabs from '@/components/NavTabs'
-import { BackgroundImage, Container, Overlay } from '@mantine/core'
-import { Outlet } from 'react-router-dom'
+
+import mainImage from '@/assets/main.png'
 
 const Layout: React.FC = () => {
-  return <BackgroundImage
-    src="https://picsum.photos/1920/1080"
-    pos="relative"
-  >
-    <NavTabs />
-    <Overlay
-      color="#000"
-      backgroundOpacity={0.5}
+  const path = useLocation().pathname
+
+  return <BackgroundImage src={mainImage}>
+    <Flex
       pos="relative"
-      mih="calc(100vh - 76px)"
-      py="xl"
+      direction="column"
+      h="100vh"
+      style={{ overflow: 'hidden' }}
+      flex={0}
     >
-      <Container>
-        <Outlet />
-      </Container>
-    </Overlay>
+      <NavTabs />
+      <Overlay
+        color="#000"
+        backgroundOpacity={path === '/' ? 0 : 0.5}
+        pos="relative"
+        py="xl"
+        style={{ overflow: 'auto' }}
+        flex={1}
+      >
+        <Container>
+          <Outlet />
+        </Container>
+      </Overlay>
+    </Flex>
   </BackgroundImage>
 }
 

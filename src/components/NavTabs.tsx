@@ -1,6 +1,6 @@
 import { Overlay, Space, Tabs, Title } from '@mantine/core'
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import routes from '@/routes'
 
@@ -8,18 +8,37 @@ import styles from './NavTabs.module.sass'
 
 const NavTabs: React.FC = () => {
   const navigate = useNavigate()
-  const currentPath = window.location.pathname
-  const cuurentRoute = routes.find(route => currentPath === route.path)
+  const currentPath = useLocation().pathname
+  const currentRoute = routes.find(route => currentPath === route.path)
+  const isHome = currentPath === '/'
+
+  const [hide, setHide] = useState(false)
+  const hideTimeout = React.useRef<ReturnType<typeof setTimeout> | null>(null)
+  const trigger = () => {
+    if (hideTimeout.current) {
+      clearTimeout(hideTimeout.current)
+      hideTimeout.current = null
+    }
+    setHide(false)
+    hideTimeout.current = setTimeout(() => {
+      setHide(true)
+    }, 2000)
+  }
+
 
   return <Tabs
     className={styles['nav-tabs']}
-    value={cuurentRoute?.key}
+    value={currentRoute?.key}
     onChange={value => navigate(routes.find(route => route.key === value)?.path || '/')}
-    pos="relative"
+    pos="sticky"
+    top={0}
+    style={{ zIndex: 1000, transition: 'opacity 0.2s ease-in-out' }}
+    opacity={isHome && hide ? 0 : 1}
+    onMouseMove={trigger}
   >
     <Overlay
       color="#000"
-      backgroundOpacity={0.2}
+      backgroundOpacity={isHome ? 0 : 0.2}
       pos="relative"
       blur={10}
     >
