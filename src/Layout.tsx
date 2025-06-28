@@ -103,7 +103,7 @@ const Layout: React.FC = () => {
       withBorder={false}
       styles={{
         header: { backgroundColor: 'transparent' },
-        navbar: { backgroundColor: '#362f36', opacity: 0.9 },
+        navbar: { backgroundColor: '#362f36', opacity: 0.9, overflow: 'auto' },
       }}
     >
       <AppShell.Header zIndex={1000}>
