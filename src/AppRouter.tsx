@@ -5,6 +5,7 @@ import {
   RouterProvider,
 } from 'react-router-dom'
 
+import NotFound from '@/pages/NotFound'
 import routes from '@/routes'
 
 const router = (children?: React.ReactNode) => createBrowserRouter(
@@ -15,6 +16,7 @@ const router = (children?: React.ReactNode) => createBrowserRouter(
         path={route.path}
         element={route.component}
       />)}
+      <Route path="*" element={<NotFound />} />
     </Route>,
   ),
 )
