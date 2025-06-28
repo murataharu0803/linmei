@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@dr.pogodin/react-helmet':
-        specifier: ^3.0.2
-        version: 3.0.2(react@19.1.0)
       '@mantine/core':
         specifier: ^8.0.2
         version: 8.0.2(@mantine/hooks@8.0.2(react@19.1.0))(@types/react@19.1.6)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -191,11 +188,6 @@ packages:
 
   '@bufbuild/protobuf@2.5.2':
     resolution: {integrity: sha512-foZ7qr0IsUBjzWIq+SuBLfdQCpJ1j8cTuNNT4owngTHoN5KsJb8L9t65fzz7SCeSWzescoOil/0ldqiL041ABg==}
-
-  '@dr.pogodin/react-helmet@3.0.2':
-    resolution: {integrity: sha512-Y0O840J+TMZyq5eoJt3A/S5i7d35AiDXJ26VEg3uelvONEmMPPYoYpKmGx78tdZGVPWJ6llP/YFQRY8z8M1Kpw==}
-    peerDependencies:
-      react: '19'
 
   '@esbuild/aix-ppc64@0.25.5':
     resolution: {integrity: sha512-9o3TMmpmftaCMepOdA5k/yDw8SfInyzWWTjYTFCX3kPSDJMROQTb8jg+h9Cnwnmm1vOzvxN7gIfB5V2ewpjtGA==}
@@ -2179,11 +2171,6 @@ snapshots:
       '@babel/helper-validator-identifier': 7.27.1
 
   '@bufbuild/protobuf@2.5.2': {}
-
-  '@dr.pogodin/react-helmet@3.0.2(react@19.1.0)':
-    dependencies:
-      '@babel/runtime': 7.27.6
-      react: 19.1.0
 
   '@esbuild/aix-ppc64@0.25.5':
     optional: true
