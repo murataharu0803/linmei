@@ -1,19 +1,21 @@
-import { Route, Routes, useNavigate, useSearchParams } from 'react-router-dom'
+import { useEffect } from 'react'
+import {
+  useNavigate,
+  useSearchParams,
+} from 'react-router-dom'
 
-import Layout from '@/Layout'
-
-import { Fan, Sheet } from '@/api/types'
 import FansContext from '@/components/FansContext'
 import useData from '@/hooks/useData'
+import Layout from '@/Layout'
 import routes from '@/routes'
-import { useEffect } from 'react'
 
-function App() {
+import { Fan, Sheet } from '@/api/types'
+
+const App = () => {
   const navigate = useNavigate()
   const path = useSearchParams()[0].get('path') || ''
 
   useEffect(() => {
-    console.log('App rendered with search:', path)
     if (routes.some(route => route.path === path))
       navigate(path || '/', { replace: true })
   })
@@ -23,17 +25,9 @@ function App() {
     fans.find(fan => fan.id === fanId)
       || { id: fanId, name: fanId, avatar: '', smallAvatarUrl: '' } as Fan
 
-  return <FansContext.Provider value={{ getFan }}><Routes>
-    <Route path="/" element={<Layout />}>
-      {routes.map(route => (
-        <Route
-          key={route.name}
-          path={route.path}
-          element={route.component}
-        />
-      ))}
-    </Route>
-  </Routes></FansContext.Provider>
+  return <FansContext.Provider value={{ getFan }}>
+    <Layout />
+  </FansContext.Provider>
 }
 
 export default App

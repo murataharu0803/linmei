@@ -1,5 +1,5 @@
 import { Overlay, Space, Tabs, Title } from '@mantine/core'
-import React, { useState } from 'react'
+import React, { memo, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import routes from '@/routes'
@@ -29,7 +29,10 @@ const NavTabs: React.FC = () => {
   return <Tabs
     className={styles['nav-tabs']}
     value={currentRoute?.key}
-    onChange={value => navigate(routes.find(route => route.key === value)?.path || '/')}
+    onChange={value => navigate(
+      routes.find(route => route.key === value)?.path || '/',
+      { viewTransition: true },
+    )}
     pos="sticky"
     top={0}
     style={{ zIndex: 1000, transition: 'opacity 0.2s ease-in-out' }}
@@ -55,4 +58,4 @@ const NavTabs: React.FC = () => {
   </Tabs>
 }
 
-export default NavTabs
+export default memo(NavTabs)

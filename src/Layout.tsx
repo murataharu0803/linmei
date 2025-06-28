@@ -4,7 +4,7 @@ import { Outlet, useLocation } from 'react-router-dom'
 
 import NavTabs from '@/components/NavTabs'
 
-import mainImage from '@/assets/main.png'
+import mainImage from '@/assets/main2.webp'
 
 const Layout: React.FC = () => {
   const path = useLocation().pathname

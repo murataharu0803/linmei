@@ -44,7 +44,7 @@ const MeetPhoto: React.FC<Photo> = ({ photoUrl, thumbnailUrl, cameraManId, descr
     }
   }
 
-  return <Grid.Col span={3} key={photoUrl} h={160}>
+  return <Grid.Col span={3} h={160}>
     <BackgroundImage
       src={thumbnailUrl}
       onClick={open}

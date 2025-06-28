@@ -22,11 +22,13 @@ export interface Fan {
 }
 
 export interface Art {
-  creatorName: string
-  creatorLink: string
+  fanId: string
+  creatorName?: string
+  creatorLink?: string
+  thumbnailUrl: string
   mediaUrl: string
-  mediaLink: string
-  comissioner: string
+  mediaLink?: string
+  description: string
 }
 
 export interface Photo {
@@ -39,9 +41,39 @@ export interface Photo {
   cameraManId: string
 }
 
+export interface Archive {
+  title: string
+  id: string
+  publishedAt: string // Date
+  schedultesAt: string // Date
+  startAt: string // Date
+  endAt: string // Date
+  D: number // Day
+  H: number // Hour
+  M: number // Minute
+  S: number // Second
+  link: string
+  duration: number // in seconds
+  host: string
+  isMembership: boolean
+  type: 'vod' | 'shorts' | 'video'
+  topic: 'debut' | 'game' | 'chatting' | 'superchat' | 'karaoke' |
+    'drawing' | 'music' | 'other' | 'meme' | 'watchalong' |
+    'clip' | 'cooking' | 'announcement' | 'outfit'
+  subTopic: string
+  otherMembers: string[]
+  customTags: string[]
+}
+
+export interface Signature {
+  signatureUrl: string
+  fanId: string
+}
+
 export interface Credit {
   type: string
   fanId: string
+  message: string
 }
 
 export enum Sheet {
@@ -49,6 +81,8 @@ export enum Sheet {
   FANS = 'FANS',
   ARTS = 'ARTS',
   PHOTOS = 'PHOTOS',
+  ARCHIVES = 'ARCHIVES',
+  SIGNATURES = 'SIGNATURES',
   VIDEOS = 'VIDEOS',
   CREDITS = 'CREDITS',
 }
@@ -58,6 +92,8 @@ export interface DataTypeMap {
   [Sheet.FANS]: Fan
   [Sheet.ARTS]: Art
   [Sheet.PHOTOS]: Photo
+  [Sheet.ARCHIVES]: Archive
+  [Sheet.SIGNATURES]: Signature
   [Sheet.VIDEOS]: Video
   [Sheet.CREDITS]: Credit
 }
