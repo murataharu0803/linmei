@@ -6,6 +6,7 @@ import App from './App'
 
 import AppRouter from '@/AppRouter'
 import '@mantine/core/styles.css'
+import '@mantine/dates/styles.css'
 import './assets/global.sass'
 
 const theme = createTheme({

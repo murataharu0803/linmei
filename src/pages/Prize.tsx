@@ -1,4 +1,4 @@
-import { Box, Flex, Image, Input, Text } from '@mantine/core'
+import { Box, Flex, Image, Text, TextInput } from '@mantine/core'
 import React, { useState } from 'react'
 
 import prizeImage from '@/assets/prize.webp'
@@ -8,7 +8,7 @@ const Prize: React.FC = () => {
 
   return <Box ta="center">
     <Flex justify="center" align="center" direction="column" mb="xl">
-      <Input
+      <TextInput
         value={name}
         onChange={e => setName(e.target.value)}
         placeholder="請輸入你的名字"

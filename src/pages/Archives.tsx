@@ -1,8 +1,10 @@
 import {
   Anchor,
   Box,
+  Button,
   Card,
   Center,
+  Collapse,
   Grid,
   Image,
   Loader,
@@ -10,12 +12,14 @@ import {
   Text,
   Title,
 } from '@mantine/core'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import useData from '@/hooks/useData'
 import useIntersectionObserver from '@/hooks/useIntersectionObserver'
 
-import { Archive, Sheet } from '@/api/types'
+import { Archive, Sheet, topics } from '@/api/types'
+import Filter from '@/components/Filter'
+import { useDisclosure } from '@mantine/hooks'
 
 const ArchiveItem: React.FC<Archive> = archieve => {
   return <Grid.Col span={4}>
@@ -37,25 +41,70 @@ const ArchiveItem: React.FC<Archive> = archieve => {
   </Grid.Col>
 }
 
+const ArchiveItemMemo = React.memo(ArchiveItem)
+
 const Archieves: React.FC = () => {
   const archieves = useData(Sheet.ARCHIVES)
+  const subTopics = Object.keys(topics).map(key => {
+    const videos = archieves.filter(a => a.topic === key)
+    return [
+      ...new Set(videos.map(a => `${topics[a.topic]}${a.subTopic ? `/${a.subTopic}` : ''}`)),
+    ].sort()
+  }).flat()
+
+  const members = [...new Set(archieves.flatMap(a => a.otherMembers))].filter(Boolean)
+  const customTags = [...new Set(archieves.flatMap(a => a.customTags))].filter(Boolean)
+
+  const [filteredVideos, setFilteredVideos] = useState<Archive[]>(archieves)
+  const [hasMore, setHasMore] = useState(true)
+  const [opened, { toggle }] = useDisclosure(false)
 
   const [count, setCount] = useState(30)
   const sentinelRef = useIntersectionObserver(() => {
     setTimeout(() => {
-      setCount(prev => Math.min(prev + 30, archieves.length))
+      setCount(prev => Math.min(prev + 30, filteredVideos.length))
     }, 500)
   })
 
-  return <Box>
+  useEffect(() => {
+    console.log('Archieves updated:', archieves.length)
+    setFilteredVideos(archieves)
+    setCount(30)
+  }, [archieves])
+
+  useEffect(() => {
+    if (filteredVideos.length <= count) setHasMore(false)
+    else setHasMore(true)
+  }, [filteredVideos, count])
+
+  return <Box pos="relative">
     <Center>
-      <Title order={2}>二創</Title>
+      <Title order={2}>直播紀錄</Title>
+      <Button pos="absolute" left={0} onClick={toggle}>篩選器</Button>
     </Center>
+    <Collapse in={opened}>
+      <Filter
+        subTopics={subTopics}
+        members={members}
+        customTags={customTags}
+        allVideos={archieves}
+        setFilteredVideos={(videos: Archive[]) => {
+          setFilteredVideos([])
+          setCount(0) // Reset count when filtering
+          setTimeout(() => {
+            setFilteredVideos(videos)
+            setCount(30) // Reset count when filtering
+          }, 500)
+        }} // No filtering logic in this example
+      />
+    </Collapse>
     <Grid justify="center" align="start" my="xl" gutter="xl">
-      {archieves.slice(0, count).map(archieve => <ArchiveItem key={archieve.id} {...archieve} />)}
+      {filteredVideos.slice(0, count).map(archieve =>
+        <ArchiveItemMemo key={archieve.id} {...archieve} />,
+      )}
     </Grid>
     <Center h="240px" ref={sentinelRef}>
-      <Loader size="xl" />
+      {hasMore && <Loader size="xl" />}
     </Center>
   </Box>
 }

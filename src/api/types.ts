@@ -65,6 +65,23 @@ export interface Archive {
   customTags: string[]
 }
 
+export const topics: Record<Archive['topic'], string> = {
+  debut: '初配信',
+  game: '遊戲',
+  chatting: '雜談',
+  superchat: 'SC',
+  karaoke: '歌回',
+  drawing: '繪畫',
+  music: '音樂',
+  other: '其他',
+  meme: '迷因',
+  watchalong: '同步視聽',
+  clip: '剪輯',
+  cooking: '料理',
+  announcement: '公告',
+  outfit: '新衣裝',
+}
+
 export interface Signature {
   signatureUrl: string
   fanId: string
