@@ -1,7 +1,7 @@
 import { Avatar, Box, Center, Divider, Flex, Title } from '@mantine/core'
 import React, { useContext } from 'react'
 
-import FansContext from '@/components/FansContext'
+import FansContext from '@/components/GlobalContext'
 import useData from '@/hooks/useData'
 
 import { Sheet } from '@/api/types'

@@ -18,6 +18,13 @@ const Signatures: React.FC = () => {
         h="auto"
         maw="100%"
         mah="80vh"
+        style={{ filter:
+          'drop-shadow(1px -1px 3px rgba(255, 255, 255, 0.4)) ' +
+          'drop-shadow(1px 1px 3px rgba(255, 255, 255, 0.4)) ' +
+          'drop-shadow(-1px -1px 3px rgba(255, 255, 255, 0.4)) ' +
+          'drop-shadow(-1px 1px 3px rgba(255, 255, 255, 0.4)) ' +
+          'drop-shadow(0 0 1rem white)',
+        }}
       />
     </Center>)}
   </Box>

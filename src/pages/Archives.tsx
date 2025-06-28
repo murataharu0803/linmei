@@ -12,7 +12,7 @@ import {
   Text,
   Title,
 } from '@mantine/core'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import useData from '@/hooks/useData'
 import useIntersectionObserver from '@/hooks/useIntersectionObserver'
@@ -59,15 +59,26 @@ const Archieves: React.FC = () => {
   const [hasMore, setHasMore] = useState(true)
   const [opened, { toggle }] = useDisclosure(false)
 
+  const handleSetFilteredVideos = useCallback((videos: Archive[]) => {
+    setFilteredVideos([])
+    setCount(0) // Reset count when filtering
+    setTimeout(() => {
+      setFilteredVideos(videos)
+      setCount(30) // Reset count when filtering
+    }, 500)
+  }, [])
+
   const [count, setCount] = useState(30)
-  const sentinelRef = useIntersectionObserver(() => {
+
+  const handleIntersection = useCallback(() => {
     setTimeout(() => {
       setCount(prev => Math.min(prev + 30, filteredVideos.length))
     }, 500)
-  })
+  }, [filteredVideos.length])
+
+  const sentinelRef = useIntersectionObserver(handleIntersection)
 
   useEffect(() => {
-    console.log('Archieves updated:', archieves.length)
     setFilteredVideos(archieves)
     setCount(30)
   }, [archieves])
@@ -88,14 +99,7 @@ const Archieves: React.FC = () => {
         members={members}
         customTags={customTags}
         allVideos={archieves}
-        setFilteredVideos={(videos: Archive[]) => {
-          setFilteredVideos([])
-          setCount(0) // Reset count when filtering
-          setTimeout(() => {
-            setFilteredVideos(videos)
-            setCount(30) // Reset count when filtering
-          }, 500)
-        }} // No filtering logic in this example
+        setFilteredVideos={handleSetFilteredVideos}
       />
     </Collapse>
     <Grid justify="center" align="start" my="xl" gutter="xl">

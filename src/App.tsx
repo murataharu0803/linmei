@@ -1,15 +1,13 @@
+import { Button, Center, CopyButton, Text, Title } from '@mantine/core'
 import { useEffect } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
 import {
   useNavigate,
   useSearchParams,
 } from 'react-router-dom'
 
-import FansContext from '@/components/FansContext'
-import useData from '@/hooks/useData'
 import Layout from '@/Layout'
 import routes from '@/routes'
-
-import { Fan, Sheet } from '@/api/types'
 
 const App = () => {
   const navigate = useNavigate()
@@ -20,14 +18,37 @@ const App = () => {
       navigate(path || '/', { replace: true })
   })
 
-  const fans = useData(Sheet.FANS)
-  const getFan = (fanId: string) =>
-    fans.find(fan => fan.id === fanId)
-      || { id: fanId, name: fanId, avatar: '', smallAvatarUrl: '' } as Fan
-
-  return <FansContext.Provider value={{ getFan }}>
+  return <ErrorBoundary
+    fallbackRender={({ error, resetErrorBoundary }) => {
+      const fullErrorMessage = error instanceof Error
+        ? error.stack || error.message
+        : String(error)
+      return <Center w="100vw" h="100vh" pos="absolute" style={{ flexDirection: 'column' }}>
+        <Title order={1} mb="md">欸，網站又壞了啦</Title>
+        <Title order={2} mb="md">叫哈洛斯出來負責啦</Title>
+        <Text size="lg" mb="md">反正把下面這段複製給他就好了</Text>
+        <Text
+          size="xs"
+          component='pre'
+          style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}
+          mb="md"
+        >
+          {fullErrorMessage}
+        </Text>
+        <CopyButton value={fullErrorMessage} timeout={10000}>
+          {({ copied, copy }) => (
+            <Button color={copied ? 'teal' : 'blue'} onClick={copy}>
+              {copied ? '好了啦複製了啦' : '看不懂，反正複製就對了'}
+            </Button>
+          )}
+        </CopyButton>
+        <Text size="sm" mt="md">奇怪為甚麼我說又...?</Text>
+        <Button onClick={resetErrorBoundary} mt="md">再重新整理一次</Button>
+      </Center>
+    }}
+  >
     <Layout />
-  </FansContext.Provider>
+  </ErrorBoundary>
 }
 
 export default App

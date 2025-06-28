@@ -168,6 +168,9 @@ const Filter: React.FC<FilterProps> = ({
         min={0}
         max={36000}
         flex={1}
+        styles={{
+          label: { color: 'var(--mantine-color-gray-7)' },
+        }}
       />
       <Checkbox
         label="顯示會員限定"

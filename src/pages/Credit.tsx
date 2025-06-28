@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 
 import useData from '@/hooks/useData'
 
-import FansContext from '@/components/FansContext'
+import FansContext from '@/components/GlobalContext'
 
 import { Credit as CreditType, Fan, Sheet } from '@/api/types'
 import { useDisclosure } from '@mantine/hooks'

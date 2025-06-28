@@ -13,7 +13,7 @@ import {
 import { useDisclosure } from '@mantine/hooks'
 import React, { useContext, useRef } from 'react'
 
-import FansContext from '@/components/FansContext'
+import FansContext from '@/components/GlobalContext'
 import useData from '@/hooks/useData'
 
 import { Photo, Sheet } from '@/api/types'

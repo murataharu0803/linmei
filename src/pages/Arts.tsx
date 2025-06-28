@@ -16,7 +16,7 @@ import ReactPlayer from 'react-player'
 import useData from '@/hooks/useData'
 
 import { Art as ArtType, Sheet } from '@/api/types'
-import FansContext from '@/components/FansContext'
+import FansContext from '@/components/GlobalContext'
 import { useDisclosure } from '@mantine/hooks'
 
 const ArtItem: React.FC<ArtType> = art => {

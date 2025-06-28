@@ -1,16 +1,17 @@
-import { Center, Text } from '@mantine/core'
-import React, { useEffect } from 'react'
+import { Button, Center } from '@mantine/core'
+import React from 'react'
 
 const Fanfic: React.FC = () => {
-  useEffect(() => {
-    window.open(
-      'https://vocus.cc/article/685cc7d2fd89780001d7037f',
-      '_blank',
-      'noopener,noreferrer',
-    )
-  }, [])
-
-  return <Center h="60vh"><Text>開啟新分頁中...</Text></Center>
+  return <Center h="60vh">
+    <Button
+      component='a'
+      href="https://vocus.cc/article/685cc7d2fd89780001d7037f"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      點擊閱讀
+    </Button>
+  </Center>
 }
 
 export default Fanfic
