@@ -4,7 +4,7 @@ import React from 'react'
 import useData from '@/hooks/useData'
 
 import { Sheet, Video as VideoType } from '@/api/types'
-import ReactPlayer from 'react-player'
+import YoutubePlayer from 'react-player/youtube'
 
 const VideoItem: React.FC<VideoType> = v => {
   const [showVideo, setShowVideo] = React.useState(false)
@@ -20,7 +20,7 @@ const VideoItem: React.FC<VideoType> = v => {
         h="100%"
         style={{ borderRadius: '16px', overflow: 'hidden' }}
       >
-        <ReactPlayer
+        <YoutubePlayer
           url={v.embedUrl}
           controls={false}
           color="transparent"
@@ -31,9 +31,9 @@ const VideoItem: React.FC<VideoType> = v => {
             opacity: showVideo ? 1 : 0,
             transition: 'opacity 0.2s ease-in-out',
           }}
-          config={{ youtube: {
+          config={{
             playerVars: { enablejsapi: 1, volume: 0 },
-          } }}
+          }}
         />
         <Image
           pos="absolute"

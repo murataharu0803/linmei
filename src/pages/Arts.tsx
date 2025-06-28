@@ -11,7 +11,7 @@ import {
   Title,
 } from '@mantine/core'
 import React, { useContext, useRef } from 'react'
-import ReactPlayer from 'react-player'
+import FilePlayer from 'react-player/file'
 
 import useData from '@/hooks/useData'
 
@@ -95,7 +95,7 @@ const ArtItem: React.FC<ArtType> = art => {
       >
         <Box pos="absolute" inset="0" onClick={close}/>
         {art.mediaUrl.endsWith('.mp4')
-          ? <ReactPlayer
+          ? <FilePlayer
             width="auto"
             height="100%"
             onLoad={onLoad}
