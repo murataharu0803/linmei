@@ -1,4 +1,5 @@
 import {
+  Affix,
   AppShell,
   BackgroundImage,
   Box,
@@ -65,33 +66,41 @@ const Layout: React.FC = () => {
   return <Box
     pos="relative"
     h="100vh"
+    style={{ overflow: 'hidden' }}
     flex={0}
   >
-    <BackgroundImage
-      src={mainImage}
-      pos="fixed"
-      inset={0}
-    />
-    <Overlay
-      py="xl"
-      h="100%"
-      opacity={mainLoading ? 1 : 0}
-      style={{
-        zIndex: 12000,
-        transition: 'opacity 0.2s ease-in-out',
-        pointerEvents: mainLoading ? 'auto' : 'none',
-      }}
+    <Affix
+      position={{ top: 0, right: 0, bottom: 0, left: 0 }}
+      zIndex={-1}
+      style={{ pointerEvents: mainLoading ? 'auto' : 'none' }}
     >
-      <LoadingOverlay
-        visible={mainLoading}
-        overlayProps={{
-          color: '#362f36',
-          backgroundOpacity: mainLoading ? 1 : 0,
-          blur: 10,
-        }}
+      <BackgroundImage
+        w="100%"
+        h="100vh"
+        src={mainImage}
+        inset={0}
       />
-    </Overlay>
-
+    </Affix>
+    <Affix
+      position={{ top: 0, right: 0, bottom: 0, left: 0 }}
+      zIndex={12000}
+      style={{ pointerEvents: mainLoading ? 'auto' : 'none' }}
+    >
+      <Overlay
+        py="xl"
+        opacity={mainLoading ? 1 : 0}
+        style={{ transition: 'opacity 0.2s ease-in-out' }}
+      >
+        <LoadingOverlay
+          visible={mainLoading}
+          overlayProps={{
+            color: '#362f36',
+            backgroundOpacity: mainLoading ? 1 : 0,
+            blur: 10,
+          }}
+        />
+      </Overlay>
+    </Affix>
     <AppShell
       header={{ height: 80, offset: true }}
       navbar={{
@@ -116,29 +125,37 @@ const Layout: React.FC = () => {
 
       <AppShell.Main
         bg={path === '/' ? 'transparent' : '#23232588'}
-        style={{ backdropFilter: path === '/' ? 'none' : 'blur(10px)' }}
+        style={{
+          backdropFilter: path === '/' ? 'none' : 'blur(10px)',
+          overflow: 'auto',
+        }}
         pos="relative"
+        h="calc(100vh - 80px)"
       >
-        <Overlay
-          pos="fixed"
-          py="xl"
-          h="100vh"
-          opacity={showLoading ? 1 : 0}
-          style={{
-            transition: 'opacity 0.2s ease-in-out',
-            pointerEvents: showLoading ? 'auto' : 'none',
-          }}
+        <Affix
+          position={{ top: 0, right: 0, bottom: 0, left: 0 }}
+          style={{ pointerEvents: mainLoading ? 'auto' : 'none' }}
         >
-          <LoadingOverlay
-            visible={showLoading}
-            overlayProps={{
-              color: 'grey',
-              backgroundOpacity: showLoading ? 0.25 : 0,
-              blur: 10,
+          <Overlay
+            py="xl"
+            h="100vh"
+            opacity={showLoading ? 1 : 0}
+            style={{
+              transition: 'opacity 0.2s ease-in-out',
+              pointerEvents: showLoading ? 'auto' : 'none',
             }}
-          />
-        </Overlay>
-        <Box py="xl">
+          >
+            <LoadingOverlay
+              visible={showLoading}
+              overlayProps={{
+                color: 'grey',
+                backgroundOpacity: showLoading ? 0.25 : 0,
+                blur: 10,
+              }}
+            />
+          </Overlay>
+        </Affix>
+        <Box pt="xl" pb="120px">
           <Container>
             <GlobalContext.Provider value={{ getFan, triggerLoad, triggerLoadFinish }}>
               <Outlet />
