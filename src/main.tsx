@@ -23,6 +23,8 @@ const theme = createTheme({
   radius: {
     0: '0px',
   },
+  fontFamily: '"LXGW WenKai TC", cursive',
+  fontFamilyMonospace: '"LXGW WenKai TC", cursive',
 })
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

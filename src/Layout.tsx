@@ -20,7 +20,7 @@ import GlobalContext from '@/components/GlobalContext'
 import { useDisclosure } from '@mantine/hooks'
 
 const Layout: React.FC = () => {
-  const [opened, { toggle }] = useDisclosure()
+  const [opened, { toggle, close }] = useDisclosure()
 
   const path = useLocation().pathname
 
@@ -65,7 +65,7 @@ const Layout: React.FC = () => {
 
   return <Box
     pos="relative"
-    h="100vh"
+    h="100lvh"
     style={{ overflow: 'hidden' }}
     flex={0}
   >
@@ -76,9 +76,10 @@ const Layout: React.FC = () => {
     >
       <BackgroundImage
         w="100%"
-        h="100vh"
+        h="100lvh"
         src={mainImage}
         inset={0}
+        style={{ backgroundPosition: '46%' }}
       />
     </Affix>
     <Affix
@@ -112,11 +113,11 @@ const Layout: React.FC = () => {
       withBorder={false}
       styles={{
         header: { backgroundColor: 'transparent' },
-        navbar: { backgroundColor: '#362f36', opacity: 0.9, overflow: 'auto' },
+        navbar: { backgroundColor: '#362f36', opacity: 0.95, overflow: 'auto' },
       }}
     >
       <AppShell.Header zIndex={1000}>
-        <NavTabs opened={opened} toggle={toggle} />
+        <NavTabs opened={opened} toggle={toggle} close={close} />
       </AppShell.Header>
 
       <AppShell.Navbar py="md" px={4}>
@@ -130,7 +131,7 @@ const Layout: React.FC = () => {
           overflow: 'auto',
         }}
         pos="relative"
-        h="calc(100vh - 80px)"
+        h="100lvh"
       >
         <Affix
           position={{ top: 0, right: 0, bottom: 0, left: 0 }}
@@ -138,7 +139,7 @@ const Layout: React.FC = () => {
         >
           <Overlay
             py="xl"
-            h="100vh"
+            h="100lvh"
             opacity={showLoading ? 1 : 0}
             style={{
               transition: 'opacity 0.2s ease-in-out',
@@ -155,7 +156,7 @@ const Layout: React.FC = () => {
             />
           </Overlay>
         </Affix>
-        <Box pt="xl" pb="120px">
+        <Box pt="md" pb="60px">
           <Container>
             <GlobalContext.Provider value={{ getFan, triggerLoad, triggerLoadFinish }}>
               <Outlet />

@@ -1,24 +1,23 @@
-import { Burger, Center, Overlay, Space, Tabs, Title } from '@mantine/core'
+import { Burger, Center, Image, Overlay, Space, Tabs, Title } from '@mantine/core'
 import React, { memo, useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 
 import routes from '@/routes'
 
-import { useMediaQuery } from '@mantine/hooks'
 import styles from './NavTabs.module.sass'
+
+import logo from '@/assets/logo.png'
 
 type NavTabsProps = {
   opened?: boolean
   toggle?: () => void
+  close?: () => void
 }
 
-const NavTabs: React.FC<NavTabsProps> = ({ opened, toggle }) => {
+const NavTabs: React.FC<NavTabsProps> = ({ opened, toggle, close }) => {
   const navigate = useNavigate()
   const currentPath = useLocation().pathname
   const currentRoute = routes.find(route => currentPath === route.path)
-  const isHome = currentPath === '/'
-
-  const isMobile = useMediaQuery('(max-width: 48em)')
 
   const [hide, setHide] = useState(false)
   const hideTimeout = React.useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -63,26 +62,30 @@ const NavTabs: React.FC<NavTabsProps> = ({ opened, toggle }) => {
   >
     <Overlay
       color="#362f36"
-      backgroundOpacity={opened ? 0.9 : 0.5}
+      backgroundOpacity={opened ? 0.95 : 0.5}
       style={{ transition: 'background-color 0.2s ease-in-out' }}
       pos="relative"
       blur={10}
       h="100%"
     >
       <Center h="100%" px="xl" py="lg">
-        <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" mr="xl"/>
-        <Title order={2}>{isMobile && !isHome ? currentRoute?.name || '林梅' : '林梅' }</Title>
+        <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" p={0} flex={1}/>
+        <Title order={2}>
+          <NavLink to="/" viewTransition onClick={close}>
+            <Image src={logo} alt="林梅" h="50px" />
+          </NavLink>
+        </Title>
         <Space flex="1 0 0" />
         <Tabs.List
           display="flex"
           visibleFrom="sm"
           style={{ alignItems: 'center' }}
         >
-          {routes.map(route => (
+          {routes.filter(r => r.path !== '/').map(route =>
             <Tabs.Tab key={route.key} value={route.key}>
               {route.name}
-            </Tabs.Tab>
-          ))}
+            </Tabs.Tab>,
+          )}
         </Tabs.List>
       </Center>
     </Overlay>

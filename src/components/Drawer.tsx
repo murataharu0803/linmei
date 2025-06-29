@@ -34,11 +34,11 @@ const Drawer: React.FC<DrawerProps> = ({ toggle }) => {
       style={{ alignItems: 'center' }}
       w="100%"
     >
-      {routes.map(route => (
+      {routes.filter(r => r.path !== '/').map(route =>
         <Tabs.Tab key={route.key} value={route.key} w="100%" p="md" my="xs">
           {route.name}
-        </Tabs.Tab>
-      ))}
+        </Tabs.Tab>,
+      )}
     </Tabs.List>
   </Tabs>
 }

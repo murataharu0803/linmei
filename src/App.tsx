@@ -25,7 +25,7 @@ const App = () => {
         : String(error)
       const is404 = error.message === '404'
       if (is404) {
-        return <Center w="100vw" h="100vh" pos="absolute" style={{ flexDirection: 'column' }}>
+        return <Center w="100vw" h="100lvh" pos="absolute" style={{ flexDirection: 'column' }}>
           <Title order={1} mb="md">你來錯地方了啦！</Title>
           <Title order={2} mb="md">梅有的東西就是梅有</Title>
           <Button
@@ -39,7 +39,7 @@ const App = () => {
           </Button>
         </Center>
       } else {
-        return <Center w="100vw" h="100vh" pos="absolute" style={{ flexDirection: 'column' }}>
+        return <Center w="100vw" h="100lvh" pos="absolute" style={{ flexDirection: 'column' }}>
           <Title order={1} mb="md">欸，網站又壞了啦</Title>
           <Title order={2} mb="md">叫哈洛斯出來負責啦</Title>
           <Text size="lg" mb="md">反正把下面這段複製給他就好了</Text>

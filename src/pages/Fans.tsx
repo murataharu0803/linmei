@@ -1,4 +1,4 @@
-import { Avatar, Box, Center, Grid, Title } from '@mantine/core'
+import { Avatar, Box, Center, Flex, Title } from '@mantine/core'
 import React from 'react'
 
 import useData from '@/hooks/useData'
@@ -12,14 +12,14 @@ const Fans: React.FC = () => {
     <Center mb="xl">
       <Title order={2}>烏梅們</Title>
     </Center>
-    <Grid justify="center" align="start" mb="md" gutter="xl">
+    <Flex justify="center" align="start" mb="md" gap="3rem" wrap="wrap">
       {fans.map(fan => (
-        <Grid.Col span={1.5} key={fan.id}>
+        <Center key={fan.id} style={{ flexDirection: 'column' }} ta="center" w="100px">
           <Avatar src={fan.smallAvatarUrl} alt={fan.name} radius="xl" size="xl" mb="md"/>
-          <Center><Title order={6} ta="center" textWrap="balance">{fan.name}</Title></Center>
-        </Grid.Col>
+          <Title order={6} ta="center" textWrap="balance">{fan.name}</Title>
+        </Center>
       ))}
-    </Grid>
+    </Flex>
   </Box>
 }
 

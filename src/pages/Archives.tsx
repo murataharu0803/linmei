@@ -22,13 +22,13 @@ import Filter from '@/components/Filter'
 import { useDisclosure } from '@mantine/hooks'
 
 const ArchiveItem: React.FC<Archive> = archieve => {
-  return <Grid.Col span={4}>
+  return <Grid.Col span={{ base: 12, xs: 6, md: 4 }}>
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Card.Section>
         <Anchor href={archieve.link} target="_blank" rel="noopener noreferrer">
           <Image
             src={`https://img.youtube.com/vi/${archieve.id}/mqdefault.jpg`}
-            height={160}
+            height={180}
             alt={archieve.title}
           />
         </Anchor>
@@ -57,14 +57,15 @@ const Archieves: React.FC = () => {
 
   const [filteredVideos, setFilteredVideos] = useState<Archive[]>(archieves)
   const [hasMore, setHasMore] = useState(true)
+  const [isFiltering, setIsFiltering] = useState(false)
   const [opened, { toggle }] = useDisclosure(false)
 
   const handleSetFilteredVideos = useCallback((videos: Archive[]) => {
-    setFilteredVideos([])
-    setCount(0) // Reset count when filtering
+    setIsFiltering(true)
     setTimeout(() => {
       setFilteredVideos(videos)
-      setCount(30) // Reset count when filtering
+      setCount(30) // Set count after filtering
+      setIsFiltering(false)
     }, 500)
   }, [])
 
@@ -102,8 +103,8 @@ const Archieves: React.FC = () => {
         setFilteredVideos={handleSetFilteredVideos}
       />
     </Collapse>
-    <Grid justify="center" align="start" my="xl" gutter="xl">
-      {filteredVideos.slice(0, count).map(archieve =>
+    <Grid justify="start" align="start" my="xl" gutter="xl">
+      {!isFiltering && filteredVideos.slice(0, count).map(archieve =>
         <ArchiveItemMemo key={archieve.id} {...archieve} />,
       )}
     </Grid>

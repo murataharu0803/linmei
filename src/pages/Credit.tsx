@@ -1,4 +1,4 @@
-import { Avatar, Box, Center, Flex, Modal, Space, Text, Title } from '@mantine/core'
+import { Avatar, Box, Center, Flex, Modal, Text, Title } from '@mantine/core'
 import React, { useContext } from 'react'
 
 import useData from '@/hooks/useData'
@@ -14,9 +14,9 @@ const types = {
   music: '音樂',
   website: '網頁開發',
   illustrator: '網站繪圖',
-  gather: '文手',
+  gather: '素材蒐集/意見提供',
   offline: '線下聚會規劃',
-  writer: '素材蒐集/意見提供',
+  writer: '文手',
   participant: '企劃參與',
 }
 
@@ -39,7 +39,7 @@ const CreditItem: React.FC<CreditType & Fan> = f => {
         overlayProps={{ backgroundOpacity: 0.55, blur: 3 }}
         radius="md"
         styles={{
-          content: { flexBasis: '100%', weight: '60vw', height: '60vh' },
+          content: { flexBasis: '100%', weight: '60vw', height: '60lvh' },
         }}
       >
         <Flex direction="row" justify="center" align="center">
@@ -64,31 +64,28 @@ const Credit: React.FC = () => {
   const section = (type: keyof typeof types) => {
     const fs = credits.filter(credit => credit.type === type)
     return <Box>
-      <Center mb="md"><Title order={2} ta="center">{types[type]}</Title></Center>
-      <Flex justify="center" align="start" mb="md" wrap="wrap" gap="md">
+      <Center mb="xl"><Title order={2} ta="center">{types[type]}</Title></Center>
+      <Flex justify="center" align="start" mb="sm" wrap="wrap" gap="xl">
         {fs.map(f => <CreditItem key={`${f.id}-${f.type}`} {...f} />)}
       </Flex>
     </Box>
   }
 
-  return <Box>
-    <Flex justify="center" align="center" direction="row">{section('pm')}</Flex>
-    <Flex justify="center" align="center" direction="row" gap="xl" wrap="wrap">
+  return <Flex justify="center" align="center" direction="column" gap="6rem">
+    <Flex>{section('pm')}</Flex>
+    <Flex gap="6rem" wrap="wrap" justify="center">
       {section('video')}
-      <Space w="xl" />
       {section('music')}
     </Flex>
-    <Flex justify="center" align="center" direction="row" gap="xl" wrap="wrap">
+    <Flex gap="6rem" wrap="wrap" justify="center">
       {section('website')}
-      <Space w="xl" />
       {section('illustrator')}
-      <Space w="xl" />
       {section('writer')}
     </Flex>
-    <Flex justify="center" align="center" direction="row">{section('offline')}</Flex>
-    <Flex justify="center" align="center" direction="row">{section('gather')}</Flex>
-    <Flex justify="center" align="center" direction="row">{section('participant')}</Flex>
-  </Box>
+    <Flex>{section('offline')}</Flex>
+    <Flex>{section('gather')}</Flex>
+    <Flex>{section('participant')}</Flex>
+  </Flex>
 }
 
 export default Credit

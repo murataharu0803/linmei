@@ -24,7 +24,7 @@ src="https://storage.googleapis.com/linmei-15030.firebasestorage.app/assets/emoj
     {wishes.map((wish, index) => {
       const fan = getFan(wish.fanId)
       return <>
-        {!!index && <Divider my="xl" />}
+        {!!index && <Divider my="3rem" />}
         <Box key={index} my="xl">
           <Flex justify="start" align="center" mb="xs">
             <Avatar src={fan.smallAvatarUrl} alt={fan.id} radius="xl" size="lg" mr="md"/>

@@ -1,4 +1,4 @@
-import { AspectRatio, Box, Center, Image, Title } from '@mantine/core'
+import { AspectRatio, Box, Center, Divider, Image, Title } from '@mantine/core'
 import React from 'react'
 
 import useData from '@/hooks/useData'
@@ -10,7 +10,7 @@ const VideoItem: React.FC<VideoType> = v => {
   const [showVideo, setShowVideo] = React.useState(false)
 
   return <>
-    <Center>
+    <Center my="xl">
       <Title order={2}>{v.title}</Title>
     </Center>
     <AspectRatio my="xl" ratio={16 / 9}>
@@ -83,7 +83,10 @@ const Video: React.FC = () => {
   const videos = useData(Sheet.VIDEOS).filter(v => v.type === 'video')
 
   return <Box ta="center">
-    {videos.map(v => <VideoItem key={v.embedUrl} {...v} />)}
+    {videos.map((v, i) => <>
+      {!!i && <Divider my="4rem" />}
+      <VideoItem key={v.embedUrl} {...v} />
+    </>)}
   </Box>
 }
 

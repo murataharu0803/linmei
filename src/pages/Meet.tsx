@@ -44,13 +44,13 @@ const MeetPhoto: React.FC<Photo> = ({ photoUrl, thumbnailUrl, cameraManId, descr
     }
   }
 
-  return <Grid.Col span={3} h={160}>
+  return <Grid.Col span={{ base: 12, xs: 6, sm: 4 }} h={240}>
     <BackgroundImage
       src={thumbnailUrl}
       onClick={open}
       className="photo-thumbnail"
       h="100%"
-      radius="lg"
+      radius="md"
     >
       <Flex className='camera-man' justify="start" align="center" mb="xs">
         <Avatar

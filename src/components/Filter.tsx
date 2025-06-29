@@ -1,5 +1,6 @@
 import { Archive, topics } from '@/api/types'
 import {
+  Box,
   Button,
   Checkbox,
   Flex,
@@ -10,6 +11,7 @@ import {
   TextInput,
 } from '@mantine/core'
 import { DatePickerInput } from '@mantine/dates'
+import { useMediaQuery } from '@mantine/hooks'
 import React, { useState } from 'react'
 
 export interface Filter {
@@ -39,6 +41,9 @@ const Filter: React.FC<FilterProps> = ({
   allVideos,
   setFilteredVideos,
 }) => {
+  const isMobile = useMediaQuery('(max-width: 768px)')
+  const isMini = useMediaQuery('(max-width: 480px)')
+
   const [titleQuery, setTitleQuery] = useState('')
   const [dateRange, setDateRange] = useState<[string | null, string | null]>([null, null])
   const [durationRange, setDurationRange] = useState<[number, number]>([0, 36000])
@@ -142,97 +147,158 @@ const Filter: React.FC<FilterProps> = ({
     memberFilter.join(',') !== currentFilter.memberFilter.join(',') ||
     customTagsFilter.join(',') !== currentFilter.customTagsFilter.join(',')
 
+  const titleQueryElement =
+    <TextInput
+      label="標題"
+      placeholder="搜尋標題..."
+      value={titleQuery}
+      onChange={e => setTitleQuery(e.target.value)}
+      flex={2}
+    />
+  const dateRangeElement =
+    <DatePickerInput
+      label="日期範圍"
+      type="range"
+      value={dateRange}
+      onChange={setDateRange}
+      flex={1}
+    />
+  const durationRangeElement = <>
+    <Text size="sm">時長範圍 (秒)</Text>
+    <RangeSlider
+      value={durationRange}
+      onChange={setDurationRange}
+      step={5}
+      min={0}
+      max={36000}
+      flex={1}
+      styles={{
+        label: { color: 'var(--mantine-color-gray-7)' },
+      }}
+    />
+  </>
+  const membershipFilterElement =
+    <Checkbox
+      label="顯示會員限定"
+      indeterminate={membershipFilter === null}
+      checked={membershipFilter ?? false}
+      onChange={() => toggleMembershipFilter(setMembershipFilter)}
+    />
+  const typeFilterElement =
+    <Checkbox.Group
+      value={typeFilter}
+      onChange={arr => setTypeFilter(arr as Archive['type'][])}
+    >
+      <Group>
+        <Checkbox value="vod" label="直播" />
+        <Checkbox value="shorts" label="Shorts" />
+        <Checkbox value="video" label="影片" />
+      </Group>
+    </Checkbox.Group>
+  const topicFilterElement =
+    <MultiSelect
+      label="主題"
+      placeholder={topicFilter.length === 0 ? '(全選)' : ''}
+      data={Object.values(topics)}
+      value={topicFilter}
+      onChange={arr => setTopicFilter(arr)}
+      clearable
+      searchable
+      flex={1}
+      miw="0"
+    />
+  const subTopicFilterElement =
+    <MultiSelect
+      label="子主題"
+      placeholder={subTopicFilter.length === 0 ? '(全選)' : ''}
+      data={subTopicFilterData}
+      value={subTopicFilter}
+      onChange={setSubTopicFilter}
+      clearable
+      searchable
+      flex={1}
+      miw="0"
+    />
+  const memberFilterElement =
+    <MultiSelect
+      label="成員"
+      placeholder={memberFilter.length === 0 ? '(全選)' : ''}
+      data={membersFilterData}
+      value={memberFilter}
+      onChange={setMemberFilter}
+      clearable
+      searchable
+      flex={1}
+      miw="0"
+    />
+  const customTagsFilterElement =
+    <MultiSelect
+      label="自訂標籤"
+      placeholder={customTagsFilter.length === 0 ? '(全選)' : ''}
+      data={customTagsFilterData}
+      value={customTagsFilter}
+      onChange={setCustomTagsFilter}
+      clearable
+      searchable
+      flex={1}
+      miw="0"
+    />
+
   return <Flex direction="column" gap="md" py="md">
-    <Flex gap="md">
-      <TextInput
-        label="標題"
-        placeholder="搜尋標題..."
-        value={titleQuery}
-        onChange={e => setTitleQuery(e.target.value)}
-        flex={2}
-      />
-      <DatePickerInput
-        label="日期範圍"
-        type="range"
-        value={dateRange}
-        onChange={setDateRange}
-        flex={1}
-      />
-    </Flex>
-    <Flex gap="md" align="center">
-      <Text size="sm">時長範圍 (秒)</Text>
-      <RangeSlider
-        value={durationRange}
-        onChange={setDurationRange}
-        step={5}
-        min={0}
-        max={36000}
-        flex={1}
-        styles={{
-          label: { color: 'var(--mantine-color-gray-7)' },
-        }}
-      />
-      <Checkbox
-        label="顯示會員限定"
-        indeterminate={membershipFilter === null}
-        checked={membershipFilter ?? false}
-        onChange={() => toggleMembershipFilter(setMembershipFilter)}
-      />
-      <Checkbox.Group
-        value={typeFilter}
-        onChange={arr => setTypeFilter(arr as Archive['type'][])}
-      >
-        <Group>
-          <Checkbox value="vod" label="直播" />
-          <Checkbox value="shorts" label="Shorts" />
-          <Checkbox value="video" label="影片" />
-        </Group>
-      </Checkbox.Group>
-    </Flex>
-    <Flex gap="md">
-      <MultiSelect
-        label="主題"
-        placeholder={memberFilter.length === 0 ? '(全選)' : ''}
-        data={Object.values(topics)}
-        value={topicFilter}
-        onChange={arr => setTopicFilter(arr)}
-        clearable
-        searchable
-        flex={1}
-      />
-      <MultiSelect
-        label="子主題"
-        placeholder={subTopicFilter.length === 0 ? '(全選)' : ''}
-        data={subTopicFilterData}
-        value={subTopicFilter}
-        onChange={setSubTopicFilter}
-        clearable
-        searchable
-        flex={1}
-      />
-    </Flex>
-    <Flex gap="md">
-      <MultiSelect
-        label="成員"
-        placeholder={memberFilter.length === 0 ? '(全選)' : ''}
-        data={membersFilterData}
-        value={memberFilter}
-        onChange={setMemberFilter}
-        clearable
-        searchable
-        flex={1}
-      />
-      <MultiSelect
-        label="自訂標籤"
-        placeholder={customTagsFilter.length === 0 ? '(全選)' : ''}
-        data={customTagsFilterData}
-        value={customTagsFilter}
-        onChange={setCustomTagsFilter}
-        clearable
-        searchable
-        flex={1}
-      />
-    </Flex>
+    {isMini ?
+      <>
+        {titleQueryElement}
+        {dateRangeElement}
+        {durationRangeElement}
+        <Flex gap="md" align="center" wrap="wrap">
+          {membershipFilterElement}
+          {typeFilterElement}
+        </Flex>
+        {topicFilterElement}
+        {subTopicFilterElement}
+        {memberFilterElement}
+        {customTagsFilterElement}
+      </>
+      : isMobile
+        ? <>
+          <Flex gap="md">
+            {titleQueryElement}
+          </Flex>
+          <Flex gap="md" align="center">
+            {dateRangeElement}
+            <Box flex={1}>{durationRangeElement}</Box>
+          </Flex>
+          <Flex gap="md" align="center">
+            {membershipFilterElement}
+            {typeFilterElement}
+          </Flex>
+          <Flex gap="md">
+            {topicFilterElement}
+            {subTopicFilterElement}
+          </Flex>
+          <Flex gap="md">
+            {memberFilterElement}
+            {customTagsFilterElement}
+          </Flex>
+        </> : <>
+          <Flex gap="md">
+            {titleQueryElement}
+            {dateRangeElement}
+          </Flex>
+          <Flex gap="md" align="center">
+            {durationRangeElement}
+            {membershipFilterElement}
+            {typeFilterElement}
+          </Flex>
+          <Flex gap="md">
+            {topicFilterElement}
+            {subTopicFilterElement}
+          </Flex>
+          <Flex gap="md">
+            {memberFilterElement}
+            {customTagsFilterElement}
+          </Flex>
+        </>}
     <Button
       pos="absolute"
       right={0}
