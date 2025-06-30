@@ -15,7 +15,7 @@ export default defineConfig({
     tsconfigPaths(),
     viteStaticCopy({
       targets: githubPagesEntry.map(r => ({
-        src: 'index.html',
+        src: 'docs/index.html',
         dest: r,
       }))
     })
