@@ -54,6 +54,7 @@ const Song: React.FC = () => {
             cursor: 'pointer',
             opacity: showVideo ? 0 : 1,
             transition: 'opacity 0.2s ease-in-out',
+            pointerEvents: showVideo ? 'none' : 'auto',
           }}
         />
       </Box>
