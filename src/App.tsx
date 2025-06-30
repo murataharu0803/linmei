@@ -7,15 +7,13 @@ import {
 } from 'react-router-dom'
 
 import Layout from '@/Layout'
-import routes from '@/routes'
 
 const App = () => {
   const navigate = useNavigate()
   const path = useSearchParams()[0].get('path') || ''
 
   useEffect(() => {
-    if (routes.some(route => route.path === path))
-      navigate(path || '/', { replace: true })
+    if (path) navigate(path, { replace: true })
   })
 
   return <ErrorBoundary
