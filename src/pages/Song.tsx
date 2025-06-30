@@ -58,21 +58,21 @@ const Song: React.FC = () => {
         />
       </Box>
     </AspectRatio>}
-    {description && <>
+    {lyrics && <>
+      <Title order={3} mt="xl">歌詞</Title>
       <Box
         component='pre'
-        dangerouslySetInnerHTML={{ __html: description }}
+        dangerouslySetInnerHTML={{ __html: lyrics }}
         style={{
           whiteSpace: 'pre-wrap',
           wordBreak: 'break-word',
         }}
       />
     </>}
-    {lyrics && <>
-      <Title order={3} mt="xl">歌詞</Title>
+    {description && <>
       <Box
         component='pre'
-        dangerouslySetInnerHTML={{ __html: lyrics }}
+        dangerouslySetInnerHTML={{ __html: description }}
         style={{
           whiteSpace: 'pre-wrap',
           wordBreak: 'break-word',

@@ -1,4 +1,4 @@
-import { Avatar, Box, Center, Flex, Modal, Text, Title } from '@mantine/core'
+import { Avatar, Box, Center, Flex, Title } from '@mantine/core'
 import React, { useContext } from 'react'
 
 import useData from '@/hooks/useData'
@@ -6,7 +6,8 @@ import useData from '@/hooks/useData'
 import FansContext from '@/components/GlobalContext'
 
 import { Credit as CreditType, Fan, Sheet } from '@/api/types'
-import { useDisclosure } from '@mantine/hooks'
+import useLongPress from '@/hooks/useLongPress'
+import { useNavigate } from 'react-router-dom'
 
 const types = {
   pm: '企劃管理',
@@ -21,40 +22,39 @@ const types = {
 }
 
 const CreditItem: React.FC<CreditType & Fan> = f => {
-  const [opened, { open, close }] = useDisclosure(false)
+  const isHow = f.type === 'illustrator' && f.fanId === 'yuanhow'
+  const isHarlosError = f.type === 'pm' && f.fanId === 'harlos_0517'
+  const isHarlos404 = f.type === 'website' && f.fanId === 'harlos_0517'
+  const { triggerEasterEgg } = useContext(FansContext)
+  const navigate = useNavigate()
 
-  return f.message
-    ? <Box key={f.id} flex="120px 0 0">
-      <Center onClick={open} style={{ flexDirection: 'column', cursor: 'pointer' }} ta="center">
-        <Avatar src={f.smallAvatarUrl} alt={f.name} radius="xl" size="xl" mb="md"/>
-        <Title order={6} textWrap="balance">{f.name}</Title>
-      </Center>
-      <Modal
-        withCloseButton={false}
-        closeOnClickOutside
-        opened={opened}
-        onClose={close}
-        centered
-        zIndex={10001}
-        overlayProps={{ backgroundOpacity: 0.55, blur: 3 }}
-        radius="md"
-        styles={{
-          content: { flexBasis: '100%', weight: '60vw', height: '60lvh' },
-        }}
-      >
-        <Flex direction="row" justify="center" align="center">
-          <Avatar src={f.smallAvatarUrl} alt={f.name} radius="xl" size="xl" mr="md"/>
-          <Title order={6} textWrap="balance">{f.type} - {f.name}</Title>
-        </Flex>
-        <Text mb="md" ta="center">{f.message}</Text>
-      </Modal>
-    </Box>
-    : <Box key={f.id} flex="120px 0 0">
-      <Center style={{ flexDirection: 'column' }} ta="center">
-        <Avatar src={f.smallAvatarUrl} alt={f.name} radius="xl" size="xl" mb="md"/>
-        <Title order={6} textWrap="balance">{f.name}</Title>
-      </Center>
-    </Box>
+  const [easterError, setEasterError] = React.useState(false)
+  if (easterError) throw new Error('哈洛斯因為連續 48 小時沒睡所以壞掉了！重新整理來復活他！')
+
+  const { ref, isActive } = useLongPress(() => {
+    if (isHow) triggerEasterEgg?.()
+    if (isHarlosError) setEasterError(true)
+    if (isHarlos404) navigate('/wherethefuckami')
+  }, { threshold: 5000 })
+
+  const classNames = isHow || isHarlosError || isHarlos404
+    ? isActive ? 'easter-egg-avatar active' : 'easter-egg-avatar'
+    : ''
+
+  return <Box flex="120px 0 0">
+    <Center style={{ flexDirection: 'column' }} ta="center">
+      <Avatar
+        className={classNames}
+        ref={ref}
+        src={f.smallAvatarUrl}
+        alt={f.name}
+        radius="xl"
+        size="xl"
+        mb="md"
+      />
+      <Title order={6} textWrap="balance">{f.name}</Title>
+    </Center>
+  </Box>
 }
 
 const Credit: React.FC = () => {

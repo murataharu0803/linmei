@@ -5,6 +5,7 @@ interface GlobalContextProps {
   getFan: (fanId: string) => Fan
   triggerLoad?: () => void
   triggerLoadFinish?: () => void
+  triggerEasterEgg?: () => void
 }
 
 const FansContext = createContext<GlobalContextProps>({

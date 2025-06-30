@@ -109,7 +109,7 @@ const Archieves: React.FC = () => {
       )}
     </Grid>
     <Center h="240px" ref={sentinelRef}>
-      {hasMore && <Loader size="xl" />}
+      {hasMore && <Loader size="xl" type="oval" />}
     </Center>
   </Box>
 }

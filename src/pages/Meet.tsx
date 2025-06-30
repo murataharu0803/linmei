@@ -26,6 +26,7 @@ const MeetPhoto: React.FC<Photo> = ({ photoUrl, thumbnailUrl, cameraManId, descr
 
   const [offsetX, setOffsetX] = React.useState<number | null>(null)
   const [offsetY, setOffsetY] = React.useState<number | null>(null)
+  const [width, setWidth] = React.useState<number | null>(null)
 
   const onLoad = (event: React.SyntheticEvent<HTMLImageElement>) => {
     const containerBox = imageContainerRef.current?.getBoundingClientRect()
@@ -39,6 +40,7 @@ const MeetPhoto: React.FC<Photo> = ({ photoUrl, thumbnailUrl, cameraManId, descr
       // Calculate the offset to center the image in the container
       const xOffset = (containerWidth - imageWidth) / 2
       const yOffset = (containerHeight - imageHeight) / 2
+      setWidth(imageWidth)
       setOffsetX(xOffset)
       setOffsetY(yOffset)
     }
@@ -74,7 +76,12 @@ const MeetPhoto: React.FC<Photo> = ({ photoUrl, thumbnailUrl, cameraManId, descr
       zIndex={10001}
       overlayProps={{ backgroundOpacity: 0.55, blur: 3 }}
       styles={{
-        content: { flexBasis: '100%', height: '100%', backgroundColor: 'transparent' },
+        content: {
+          flexBasis: '100%',
+          height: '100%',
+          backgroundColor: 'transparent',
+          boxShadow: 'none',
+        },
         body: { height: '100%', padding: 0 },
       }}
     >
@@ -103,6 +110,8 @@ const MeetPhoto: React.FC<Photo> = ({ photoUrl, thumbnailUrl, cameraManId, descr
           left={offsetX || 0}
           opacity={offsetY !== null && offsetX !== null ? 1 : 0}
           p="lg"
+          w={width || 'auto'}
+          style={{ filter: 'drop-shadow(0 0 4px black)' }}
         >
           <Text>{description}</Text>
         </Box>

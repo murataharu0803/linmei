@@ -1,10 +1,11 @@
-import { colorsTuple, createTheme, MantineProvider } from '@mantine/core'
+import { colorsTuple, createTheme, Loader, MantineProvider } from '@mantine/core'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
 import App from './App'
 
 import AppRouter from '@/AppRouter'
+import Loading from '@/Loading'
 import '@mantine/core/styles.css'
 import '@mantine/dates/styles.css'
 import './assets/global.sass'
@@ -25,6 +26,17 @@ const theme = createTheme({
   },
   fontFamily: '"LXGW WenKai TC", cursive',
   fontFamilyMonospace: '"LXGW WenKai TC", cursive',
+  components: {
+    Loader: Loader.extend({
+      defaultProps: {
+        loaders: {
+          ...Loader.defaultLoaders,
+          custom: Loading,
+        },
+        type: 'custom',
+      },
+    }),
+  },
 })
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

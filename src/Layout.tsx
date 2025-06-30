@@ -15,7 +15,9 @@ import NavTabs from '@/components/NavTabs'
 
 import { getData } from '@/api'
 import { Fan, Sheet } from '@/api/types'
-import mainImage from '@/assets/main2.webp'
+import mainImage from '@/assets/main.webp'
+import main2Image from '@/assets/main2.webp'
+import main3Image from '@/assets/main3.webp'
 import GlobalContext from '@/components/GlobalContext'
 import { useDisclosure } from '@mantine/hooks'
 
@@ -43,6 +45,15 @@ const Layout: React.FC = () => {
 
   const [fans, setFans] = useState<Fan[]>([])
   const [mainLoading, setMainLoading] = useState(true)
+  const [image, setImage] = useState(main3Image)
+
+  const triggerEasterEgg = useCallback(() => {
+    setImage(prevImage => {
+      if (prevImage === mainImage) return main2Image
+      else if (prevImage === main2Image) return main3Image
+      else return mainImage
+    })
+  }, [])
 
   const getFan = useCallback((fanId: string) =>
     fans.find(fan => fan.id === fanId)
@@ -77,7 +88,7 @@ const Layout: React.FC = () => {
       <BackgroundImage
         w="100%"
         h="100lvh"
-        src={mainImage}
+        src={image}
         inset={0}
         style={{ backgroundPosition: '46%' }}
       />
@@ -158,7 +169,9 @@ const Layout: React.FC = () => {
         </Affix>
         <Box pt="md" pb="60px">
           <Container>
-            <GlobalContext.Provider value={{ getFan, triggerLoad, triggerLoadFinish }}>
+            <GlobalContext.Provider
+              value={{ getFan, triggerLoad, triggerLoadFinish, triggerEasterEgg }}
+            >
               <Outlet />
             </GlobalContext.Provider>
           </Container>

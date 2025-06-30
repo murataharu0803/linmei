@@ -90,7 +90,6 @@ export interface Signature {
 export interface Credit {
   type: string
   fanId: string
-  message: string
 }
 
 export enum Sheet {

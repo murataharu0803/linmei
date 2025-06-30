@@ -1,4 +1,5 @@
 import {
+  Anchor,
   Avatar,
   BackgroundImage,
   Box,
@@ -21,12 +22,13 @@ import { useDisclosure } from '@mantine/hooks'
 
 const ArtItem: React.FC<ArtType> = art => {
   const { getFan } = useContext(FansContext)
-  const cameraMan = getFan(art.fanId)
+  const fan = getFan(art.fanId)
   const [opened, { open, close }] = useDisclosure(false)
   const imageContainerRef = useRef<HTMLDivElement>(null)
 
   const [offsetX, setOffsetX] = React.useState<number | null>(null)
   const [offsetY, setOffsetY] = React.useState<number | null>(null)
+  const [width, setWidth] = React.useState<number | null>(null)
 
   const onLoad = (event: React.SyntheticEvent<HTMLImageElement>) => {
     const containerBox = imageContainerRef.current?.getBoundingClientRect()
@@ -40,6 +42,7 @@ const ArtItem: React.FC<ArtType> = art => {
       // Calculate the offset to center the image in the container
       const xOffset = (containerWidth - imageWidth) / 2
       const yOffset = (containerHeight - imageHeight) / 2
+      setWidth(imageWidth)
       setOffsetX(xOffset)
       setOffsetY(yOffset)
     }
@@ -53,16 +56,33 @@ const ArtItem: React.FC<ArtType> = art => {
       h="100%"
       radius="md"
     >
-      <Flex className='camera-man' justify="start" align="center" mb="xs">
+      <Flex
+        className='camera-man'
+        justify="start"
+        align="center"
+        mb="xs"
+        style={{ filter: 'drop-shadow(0 0 4px black)' }}
+      >
         <Avatar
-          src={cameraMan.smallAvatarUrl}
-          alt={cameraMan.name}
+          src={fan.smallAvatarUrl}
+          alt={fan.name}
           radius="xl"
           size="sm"
           m="sm"
         />
         <Center>
-          <Title order={6} ta="center" textWrap="balance">{cameraMan.name}</Title>
+          <Title order={6} ta="center" textWrap="balance">
+            {fan.name}
+            {art.creatorName && ' 委託 '}
+            {art.creatorLink
+              ? <Anchor
+                href={art.creatorLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >{art.creatorName}</Anchor>
+              : art.creatorName
+            }
+          </Title>
         </Center>
       </Flex>
     </BackgroundImage>
@@ -93,7 +113,7 @@ const ArtItem: React.FC<ArtType> = art => {
         w="auto"
         h="100%"
       >
-        <Box pos="absolute" inset="0" onClick={close}/>
+        <Box pos="absolute" inset="0" onClick={close} style={{ zIndex: -1 }}/>
         {art.mediaUrl.endsWith('.mp4')
           ? <FilePlayer
             width="auto"
@@ -118,6 +138,8 @@ const ArtItem: React.FC<ArtType> = art => {
           left={offsetX || 0}
           opacity={offsetY !== null && offsetX !== null ? 1 : 0}
           p="lg"
+          w={width || 'auto'}
+          style={{ filter: 'drop-shadow(0 0 4px black)' }}
         >
           <Text>{art.description}</Text>
         </Box>
