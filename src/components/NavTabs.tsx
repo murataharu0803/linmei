@@ -70,7 +70,7 @@ const NavTabs: React.FC<NavTabsProps> = ({ opened, toggle, close }) => {
     >
       <Center h="100%" px="xl" py="lg">
         <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" p={0} flex={1}/>
-        <Title order={2} pr="xl">
+        <Title order={2} px="lg">
           <NavLink to="/" viewTransition onClick={close}>
             <Image src={logo} alt="林梅" h="50px" />
           </NavLink>
