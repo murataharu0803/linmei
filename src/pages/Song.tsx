@@ -64,6 +64,7 @@ const Song: React.FC = () => {
       <Box
         component='pre'
         dangerouslySetInnerHTML={{ __html: lyrics }}
+        ta="center"
         style={{
           whiteSpace: 'pre-wrap',
           wordBreak: 'break-word',
@@ -75,6 +76,7 @@ const Song: React.FC = () => {
       <Box
         component='pre'
         dangerouslySetInnerHTML={{ __html: credit }}
+        ta="center"
         style={{
           whiteSpace: 'pre-wrap',
           wordBreak: 'break-word',
@@ -82,10 +84,11 @@ const Song: React.FC = () => {
       />
     </>}
     {description && <>
-      <Title order={3} mt="xl">歌詞</Title>
+      <Title order={3} mt="xl">心路歷程</Title>
       <Box
         component='pre'
         dangerouslySetInnerHTML={{ __html: description }}
+        ta="center"
         style={{
           whiteSpace: 'pre-wrap',
           wordBreak: 'break-word',
