@@ -22,7 +22,6 @@ const VideoItem: React.FC<VideoType> = v => {
       >
         <YoutubePlayer
           url={v.embedUrl}
-          controls={false}
           color="transparent"
           width="100%"
           height="100%"

@@ -28,7 +28,6 @@ const Song: React.FC = () => {
       >
         <YoutubePlayer
           url={music.embedUrl}
-          controls={false}
           color="transparent"
           width="100%"
           height="100%"
