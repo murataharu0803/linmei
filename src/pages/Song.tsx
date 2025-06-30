@@ -69,21 +69,22 @@ const Song: React.FC = () => {
         }}
       />
     </>}
-    {description && <>
+    {credit && <>
+      <Title order={3} mt="xl">Credits</Title>
       <Box
         component='pre'
-        dangerouslySetInnerHTML={{ __html: description }}
+        dangerouslySetInnerHTML={{ __html: credit }}
         style={{
           whiteSpace: 'pre-wrap',
           wordBreak: 'break-word',
         }}
       />
     </>}
-    {credit && <>
-      <Title order={3} mt="xl">Credits</Title>
+    {description && <>
+      <Title order={3} mt="xl">歌詞</Title>
       <Box
         component='pre'
-        dangerouslySetInnerHTML={{ __html: credit }}
+        dangerouslySetInnerHTML={{ __html: description }}
         style={{
           whiteSpace: 'pre-wrap',
           wordBreak: 'break-word',
