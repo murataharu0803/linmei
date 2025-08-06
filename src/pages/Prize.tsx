@@ -1,6 +1,7 @@
 import { Box, Center, Image, Text, TextInput } from '@mantine/core'
 import React, { useState } from 'react'
 
+import cert from '@/assets/cert_tw.jpg'
 import prizeImage from '@/assets/prize.webp'
 import prizeLinmeiImage from '@/assets/prize_linmei.webp'
 
@@ -10,6 +11,7 @@ const Prize: React.FC = () => {
   const scrollRef = React.useRef<HTMLDivElement>(null)
 
   const isLinmei = name === '林梅'
+  const isNotLinmei = name === '我不是林梅'
 
   const scrollToEnd = () => {
     if (scrollRef.current)
@@ -39,6 +41,7 @@ const Prize: React.FC = () => {
           alt="prize"
           w="auto"
           h="70lvh"
+          opacity={isLinmei || isNotLinmei ? 0 : 1}
           onLoad={scrollToEnd}
         />
         <Image
@@ -51,8 +54,19 @@ const Prize: React.FC = () => {
           opacity={isLinmei ? 1 : 0}
           style={{ transition: 'opacity 0.3s ease-in-out' }}
         />
+        <Image
+          pos="absolute"
+          top={0}
+          left="5.2lvh"
+          src={cert}
+          alt="cert_linmei"
+          w="auto"
+          h="70lvh"
+          opacity={isNotLinmei ? 1 : 0}
+          style={{ transition: 'opacity 0.3s ease-in-out' }}
+        />
         <Box pos="absolute" left="75.4%" top="35%" w="5%" c="black" ta="center">
-          {isLinmei || <Text
+          {isLinmei || isNotLinmei || <Text
             style={{
               fontSize: '2.5lvh',
               lineBreak: 'anywhere',
